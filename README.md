@@ -1,6 +1,7 @@
-# gnome-shell-extension-tilingnome
+# gnome-shell-extension-tilingnomeplus
 
-Tiling window manager
+Tiling window manager, forked from
+[rliang/gnome-shell-extension-tilingnome](https://github.com/rliang/gnome-shell-extension-tilingnome).
 
 ## Features
 
@@ -8,12 +9,17 @@ Tiling window manager
 * Gaps
 * (Experimental) Multi-monitor
 
+## Features added by this fork
+
+* Fullscreen layout
+* Exclude windows by name from auto-tiling, e.g. ULauncher
+
 ## Installation
 
 1) Clone the project to the gnome-shell extension directory:
 
 ```
-git clone --depth=1 https://github.com/rliang/gnome-shell-extension-tilingnome ~/.local/share/gnome-shell/extensions/tilingnome@rliang.github.com
+git clone --depth=1 https://github.com/sgelb/gnome-shell-extension-tilingnome ~/.local/share/gnome-shell/extensions/tilingnomeplus@sgelb.github.com
 ```
 
 2) Reload GNOME Shell: `Alt+F2` then `r` or log out and in;
@@ -21,7 +27,7 @@ git clone --depth=1 https://github.com/rliang/gnome-shell-extension-tilingnome ~
 3) Enable the extension:
 
 ```
-gnome-shell-extension-tool -e tilingnome@rliang.github.com
+gnome-shell-extension-tool -e tilingnomeplus@sgelb.github.com
 ```
 
 ## Usage
