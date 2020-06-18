@@ -1,4 +1,4 @@
-# gnome-shell-extension-tilingnomeplus
+# gnome-shell-extension-tilingnome-plus
 
 Tiling window manager, forked from
 [rliang/gnome-shell-extension-tilingnome](https://github.com/rliang/gnome-shell-extension-tilingnome).
@@ -19,7 +19,7 @@ Tiling window manager, forked from
 1) Clone the project to the gnome-shell extension directory:
 
 ```
-git clone --depth=1 https://github.com/sgelb/gnome-shell-extension-tilingnome ~/.local/share/gnome-shell/extensions/tilingnomeplus@sgelb.github.com
+git clone --depth=1 https://github.com/sgelb/gnome-shell-extension-tilingnome-plus ~/.local/share/gnome-shell/extensions/tilingnomeplus@sgelb.github.com
 ```
 
 2) Reload GNOME Shell: `Alt+F2` then `r` or log out and in;
@@ -27,7 +27,7 @@ git clone --depth=1 https://github.com/sgelb/gnome-shell-extension-tilingnome ~/
 3) Enable the extension:
 
 ```
-gnome-shell-extension-tool -e tilingnomeplus@sgelb.github.com
+gnome-extensions enable tilingnomeplus@sgelb.github.com
 ```
 
 ## Usage
