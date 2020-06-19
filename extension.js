@@ -4,6 +4,7 @@ const Shell = imports.gi.Shell;
 const Tweener = imports.ui.tweener;
 const Main = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const PanelBox = Main.layoutManager.panelBox;
 
 const SchemaSource = Gio.SettingsSchemaSource.new_from_directory(
   Me.dir.get_path(),
@@ -14,7 +15,10 @@ const settings = new Gio.Settings({
   settings_schema: SchemaSource.lookup(Me.metadata["settings-schema"], true)
 });
 const bindings = new Gio.Settings({
-  settings_schema: SchemaSource.lookup(Me.metadata["settings-schema"] + ".keybindings", true)
+  settings_schema: SchemaSource.lookup(
+    Me.metadata["settings-schema"] + ".keybindings",
+    true
+  )
 });
 
 function tileInit(win) {
@@ -25,8 +29,12 @@ function tileInit(win) {
 function tileInitAuto(win) {
   const types = settings.get_strv("auto-tile-window-types");
   const excludes = settings.get_strv("auto-tile-window-excludes");
-  const title = win.get_title()
-  if (types.some(t => win.window_type === Meta.WindowType[t]) && !excludes.some(e => title.includes(e))) tileInit(win);
+  const title = win.get_title();
+  if (
+    types.some(t => win.window_type === Meta.WindowType[t]) &&
+    !excludes.some(e => title.includes(e))
+  )
+    tileInit(win);
 }
 
 function tileDestroy(win) {
@@ -68,10 +76,10 @@ function refreshTile(win, idx, rect) {
     const ming = settings.get_value("minimum-gaps").deep_unpack();
     const maxg = settings.get_value("maximum-gaps").deep_unpack();
     tile.gaps = new Meta.Rectangle({
-      x: ming[0] + Math.random() * (maxg[0] - ming[0]),
-      y: ming[1] + Math.random() * (maxg[1] - ming[1]),
-      width: ming[2] + Math.random() * (maxg[2] - ming[2]),
-      height: ming[3] + Math.random() * (maxg[3] - ming[3])
+      x: ming[0],
+      y: ming[1],
+      width: ming[2],
+      height: ming[3]
     });
   }
   if (!rect) return;
@@ -107,16 +115,23 @@ function refreshMonitor(mon) {
     .filter(tileData)
     .sort(tileCompare);
   const [x, y, width, height] = settings.get_value("margins").deep_unpack();
+  const panel_height = PanelBox.visible ? PanelBox.height : 0;
   const area = addGaps(
     wksp.get_work_area_for_monitor(mon),
-    new Meta.Rectangle({ x: x, y: y, width: width, height: height })
+    new Meta.Rectangle({
+      x: x,
+      y: y + panel_height,
+      width: width,
+      height: height
+    })
   );
   const layouts = settings.get_strv("layouts");
   if (!layouts.length) return;
   const layout = Me.imports.layouts[layouts[0]];
   if (!layout) return;
-  layout(settings, wins, area)
-    .forEach((rect, idx) => refreshTile(wins[idx], idx, rect));
+  layout(settings, wins, area).forEach((rect, idx) =>
+    refreshTile(wins[idx], idx, rect)
+  );
 }
 
 function refresh() {
@@ -124,6 +139,7 @@ function refresh() {
 }
 
 let _handle_gs;
+let _handle_panel_box;
 let _handle_wm0;
 let _handle_wm1;
 let _handle_wm2;
@@ -158,6 +174,7 @@ function addKeybinding(name, handler) {
 
 function enable() {
   _handle_gs = settings.connect("changed", refresh);
+  _handle_panel_box = PanelBox.connect("notify::visible", refresh);
   _handle_wm0 = global.window_manager.connect("map", (_, w) => {
     tileInitAuto(w.meta_window);
     refresh();
@@ -269,6 +286,7 @@ function enable() {
 
 function disable() {
   settings.disconnect(_handle_gs);
+  PanelBox.disconnect(_handle_panel_box);
   global.display.disconnect(_handle_display0);
   global.display.disconnect(_handle_display1);
   global.window_manager.disconnect(_handle_wm0);

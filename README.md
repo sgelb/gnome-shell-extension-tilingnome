@@ -13,6 +13,14 @@ Tiling window manager, forked from
 
 * Fullscreen layout
 * Exclude windows by name from auto-tiling, e.g. ULauncher
+* Auto-resize windows when hiding top panel bar
+
+## Future plan
+
+* Add frame around active window or shade inactive
+* Keybinding for each layout
+* Floating layout
+* Make it more opiniated by removing everything I don't need
 
 ## Installation
 
