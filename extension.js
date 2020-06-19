@@ -115,12 +115,11 @@ function refreshMonitor(mon) {
     .filter(tileData)
     .sort(tileCompare);
   const [x, y, width, height] = settings.get_value("margins").deep_unpack();
-  const panel_height = PanelBox.visible ? PanelBox.height : 0;
   const area = addGaps(
     wksp.get_work_area_for_monitor(mon),
     new Meta.Rectangle({
       x: x,
-      y: y + panel_height,
+      y: y,
       width: width,
       height: height
     })
@@ -139,7 +138,7 @@ function refresh() {
 }
 
 let _handle_gs;
-let _handle_panel_box;
+let _handle_panel_position;
 let _handle_wm0;
 let _handle_wm1;
 let _handle_wm2;
@@ -174,7 +173,7 @@ function addKeybinding(name, handler) {
 
 function enable() {
   _handle_gs = settings.connect("changed", refresh);
-  _handle_panel_box = PanelBox.connect("notify::visible", refresh);
+  _handle_panel_position = PanelBox.connect("notify::position", refresh);
   _handle_wm0 = global.window_manager.connect("map", (_, w) => {
     tileInitAuto(w.meta_window);
     refresh();
@@ -215,6 +214,10 @@ function enable() {
     if (tileData(win)) tileDestroy(win);
     else tileInit(win);
     refresh();
+  });
+  addKeybinding("toggle-panel", () => {
+    let panel_y = PanelBox.y == 0 ? -PanelBox.height : 0;
+    PanelBox.set_position(0, panel_y);
   });
   addKeybinding("switch-next-layout", () => {
     const layouts = settings.get_strv("layouts");
@@ -286,7 +289,7 @@ function enable() {
 
 function disable() {
   settings.disconnect(_handle_gs);
-  PanelBox.disconnect(_handle_panel_box);
+  PanelBox.disconnect(_handle_panel_position);
   global.display.disconnect(_handle_display0);
   global.display.disconnect(_handle_display1);
   global.window_manager.disconnect(_handle_wm0);

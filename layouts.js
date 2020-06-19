@@ -87,5 +87,5 @@ function spiral(settings, wins, area, part) {
 }
 
 function fullscreen(settings, wins, area) {
-  return Array(wins.length).fill(area)
+  return Array(wins.length).fill(area);
 }

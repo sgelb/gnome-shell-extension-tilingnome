@@ -13,7 +13,8 @@ Tiling window manager, forked from
 
 * Fullscreen layout
 * Exclude windows by name from auto-tiling, e.g. ULauncher
-* Auto-resize windows when hiding top panel bar
+* Keybinding to hide top panel
+* Auto-resize windows when hiding top panel
 
 ## Future plan
 
