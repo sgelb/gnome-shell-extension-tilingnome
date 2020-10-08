@@ -2,8 +2,8 @@
   "name": "Tilingnome Plus",
   "description": "Tiling window manager",
   "settings-schema": "org.gnome.shell.extensions.tilingnomeplus",
-  "shell-version": ["3.36"],
+  "shell-version": ["3.36", "3.38"],
   "url": "https://github.com/sgelb/gnome-shell-extension-tilingnome",
   "uuid": "tilingnomeplus@sgelb.github.com",
-  "version": 1
+  "version": 2
 }

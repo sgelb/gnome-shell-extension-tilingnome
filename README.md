@@ -18,6 +18,7 @@ Tiling window manager, forked from
 
 ## Future plan
 
+* Improve handling of popup windows
 * Add frame around active window or shade inactive
 * Keybinding for each layout
 * Floating layout
